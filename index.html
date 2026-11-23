@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#173b35">
+<title>Meus Protocolos</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./config.js"></script>
+<style>
+:root{--deep:#173b35;--green:#24584e;--mint:#e9f2ed;--bg:#f4f6f3;--paper:#fff;--ink:#1c2925;--muted:#77847e;--line:#e4eae5;--red:#b43d3d;--shadow:0 12px 32px rgba(23,59,53,.07)}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}button,input,textarea{font:inherit}button{cursor:pointer;border:0}button:disabled{opacity:.6;cursor:not-allowed}
+.shell{width:100%;max-width:560px;min-height:100dvh;margin:auto;background:var(--bg);padding-bottom:calc(92px + env(safe-area-inset-bottom))}.shell.login-mode{padding-bottom:0;display:flex;flex-direction:column}.shell.login-mode .header{display:none}.shell.login-mode .login-wrap{flex:1}.header{background:var(--deep);color:white;padding:22px 20px 27px;border-radius:0 0 25px 25px}.headrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:14px;background:#ffffff1c;display:grid;place-items:center;font-size:20px;font-weight:850}.brand h1{font-size:19px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.3px}.brand p{font-size:12px;color:#d2e1da;margin:4px 0 0}.logout{background:#ffffff18;color:white;border:1px solid #ffffff30;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700}
+.content{padding:20px 16px 12px}.intro{margin:2px 2px 18px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);font-weight:800}.intro h2{font-size:25px;letter-spacing:-.7px;margin:6px 0 5px}.intro p{font-size:13px;color:var(--muted);margin:0;line-height:1.5}.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:15px}.panel-title{font-size:16px;font-weight:800;margin:0 0 14px}.search-label,label{display:block;font-size:12px;font-weight:750;color:#43534c;margin:0 0 7px}.searchline{position:relative}.searchline input{padding-right:48px}.searchline .searchicon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:19px;pointer-events:none}
+input,textarea{width:100%;border:1px solid #dce5de;background:#fbfcfa;color:var(--ink);border-radius:13px;padding:14px;font-size:15px;outline:none;min-width:0}input:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #24584e17;background:#fff}textarea{min-height:100px;resize:vertical;line-height:1.5}.primary{width:100%;margin-top:12px;background:var(--deep);color:white;border-radius:13px;padding:14px;font-size:14px;font-weight:800;box-shadow:0 6px 15px #173b3520}.primary:active:not(:disabled){transform:scale(.99)}.secondary{background:var(--mint);color:var(--deep);border-radius:11px;padding:10px 13px;font-size:12px;font-weight:800}.danger{background:#fff0ef;color:var(--red);border-radius:11px;padding:10px 13px;font-size:12px;font-weight:800}
+.result{margin-top:15px;border:1px solid #dce9df;background:#f5faf6;border-radius:16px;overflow:hidden}.result-head{padding:14px 15px;background:#e9f3ec;display:flex;justify-content:space-between;align-items:center;gap:10px}.result-head span{font-size:10px;color:var(--green);font-weight:850;letter-spacing:1px}.result-head strong{font-size:14px;overflow-wrap:anywhere}.result-body{padding:15px}.field{padding:0 0 13px;margin:0 0 13px;border-bottom:1px solid #e4ece5}.field:last-child{padding:0;margin:0;border:0}.field small{display:block;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}.field div{font-size:14px;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}.status{font-size:12px;line-height:1.45;margin-top:10px;min-height:16px;color:var(--muted)}.status.error{color:var(--red)}.status.success{color:var(--green)}.hidden{display:none!important}
+.formgrid{display:grid;grid-template-columns:1fr;gap:13px}.formgroup{min-width:0}.form-actions{display:flex;gap:9px;margin-top:15px}.form-actions button{flex:1}.form-actions .primary{margin:0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-head h3{font-size:15px;margin:0}.count{font-size:11px;color:var(--muted);margin-top:4px}.list{margin-top:8px}.record{padding:14px 0;border-top:1px solid var(--line)}.record:first-child{border-top:0}.record-number{font-size:14px;font-weight:850;overflow-wrap:anywhere}.record-meta{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}.record-actions{display:flex;gap:7px;margin-top:11px}.record-actions button{flex:1}.empty{padding:22px 8px;text-align:center;color:var(--muted);font-size:13px;line-height:1.5}.nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;padding:9px 18px calc(9px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:10px;box-shadow:0 -8px 25px #173b3509}.navbtn{display:flex;align-items:center;justify-content:center;gap:9px;background:transparent;color:#7b8982;border-radius:13px;padding:11px 8px;font-size:12px;font-weight:800}.navbtn .ico{font-size:18px;line-height:1}.navbtn.active{background:var(--mint);color:var(--deep)}.login-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:24px 16px;min-height:100dvh}.login-card{width:100%;max-width:410px;background:white;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 18px 45px rgba(23,59,53,.11)}.login-card h2{margin:0 0 7px;font-size:20px}.login-card>p{font-size:13px;color:var(--muted);margin:0 0 20px}.login-card .formgroup{margin-bottom:14px}
+@media(min-width:561px){body{padding:24px 0}.shell{min-height:calc(100dvh - 48px);border-radius:28px;overflow:hidden;box-shadow:0 20px 60px #173b3515}.nav{bottom:24px;border-radius:0 0 28px 28px}.header{border-radius:0 0 25px 25px}.login-wrap{min-height:calc(100dvh - 48px)}}
+</style></head>
+<body><div class="shell login-mode" id="shell">
+<header class="header"><div class="headrow"><div class="brand"><div class="logo">P</div><div><h1>Meus Protocolos</h1><p>Seu controle de protocolos</p></div></div><button class="logout hidden" id="logoutBtn">Sair</button></div></header>
+<section class="login-wrap" id="loginCard"><div class="login-card"><h2>Bem-vindo de volta</h2><p>Entre para acessar seus protocolos.</p><form id="loginForm"><div class="formgroup"><label for="email">E-mail</label><input id="email" type="email" autocomplete="username" placeholder="Seu e-mail" required></div><div class="formgroup"><label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" placeholder="Sua senha" required></div><button class="primary" id="loginBtn" type="submit">Entrar no sistema</button><div class="status" id="loginStatus" aria-live="polite"></div></form></div></section>
+<main id="app" class="hidden">
+<section class="content" id="searchView"><div class="intro"><div class="eyebrow">Consulta rápida</div><h2>Pesquisar protocolo</h2><p>Digite o número para localizar as informações.</p></div><div class="panel"><label class="search-label" for="searchNumber">Número do protocolo</label><div class="searchline"><input id="searchNumber" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Ex.: 7966189396797" autocomplete="off"><span class="searchicon">⌕</span></div><button class="primary" id="searchBtn">Pesquisar protocolo</button><div class="status" id="searchStatus" aria-live="polite"></div><div id="searchResult" class="hidden"></div></div></section>
+<section class="content hidden" id="manageView"><div class="intro"><div class="eyebrow">Gerenciamento</div><h2>Seus cadastros</h2><p>Adicione, atualize ou remova protocolos.</p></div><div class="panel" id="formCard"><h3 class="panel-title" id="formTitle">Novo protocolo</h3><form id="protocolForm"><div class="formgrid"><div class="formgroup"><label for="numero">Número do protocolo</label><input id="numero" type="text" inputmode="numeric" pattern="[0-9]*" required maxlength="30" placeholder="Ex.: 7966189396797"></div><div class="formgroup"><label for="corretor">Corretor</label><input id="corretor" required maxlength="160" placeholder="Nome do corretor"></div><div class="formgroup"><label for="responsavel">Responsável</label><input id="responsavel" required maxlength="160" placeholder="Nome do responsável"></div><div class="formgroup"><label for="observacao">Observação <span style="font-weight:400;color:#87938d">(opcional)</span></label><textarea id="observacao" maxlength="3000" placeholder="Adicione informações importantes..."></textarea></div></div><div class="form-actions"><button class="primary" id="saveBtn" type="submit">Salvar protocolo</button><button class="secondary hidden" id="cancelEdit" type="button">Cancelar</button></div><div class="status" id="formStatus" aria-live="polite"></div></form></div><div class="panel"><div class="section-head"><div><h3>Protocolos cadastrados</h3><div class="count" id="count">Carregando...</div></div><button class="secondary" id="refreshBtn">Atualizar</button></div><div class="list" id="protocolList"></div></div></section>
+</main>
+<nav class="nav hidden" id="bottomNav"><button class="navbtn active" id="navSearch"><span class="ico">⌕</span><span>Pesquisar</span></button><button class="navbtn" id="navManage"><span class="ico">▤</span><span>Cadastros</span></button></nav>
+</div>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const setStatus=(id,msg,kind='')=>{$(id).textContent=msg;$(id).className='status '+kind};
+if(!window.supabase||!window.SUPABASE_URL||!window.SUPABASE_ANON_KEY){setStatus('loginStatus','Não foi possível carregar a configuração do Supabase.','error');return}
+const db=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);
+let editingId=null;
+let loaded=false;
+let pendingDeleteId=null;
+
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function onlyDigits(v){return String(v??'').replace(/\D+/g,'')}
+
+async function withBusy(btn,fn){
+  if(!btn)return fn();
+  if(btn.disabled)return;
+  btn.disabled=true;
+  try{return await fn()}finally{btn.disabled=false}
+}
+
+function clearSearchResult(){
+  $('searchResult').classList.add('hidden');
+  $('searchResult').innerHTML='';
+  setStatus('searchStatus','');
+}
+
+function showView(view){
+  const search=view==='search';
+  $('searchView').classList.toggle('hidden',!search);
+  $('manageView').classList.toggle('hidden',search);
+  $('navSearch').classList.toggle('active',search);
+  $('navManage').classList.toggle('active',!search);
+  if(!search&&!loaded)loadProtocols();
+}
+
+function showApp(session){
+  $('shell')?.classList.toggle('login-mode',!session);
+  $('loginCard').classList.toggle('hidden',!!session);
+  $('app').classList.toggle('hidden',!session);
+  $('bottomNav').classList.toggle('hidden',!session);
+  $('logoutBtn').classList.toggle('hidden',!session);
+  if(session){
+    loaded=false;
+    clearSearchResult();
+    showView('search');
+  }
+}
+
+async function loadProtocols(){
+  pendingDeleteId=null;
+  $('protocolList').innerHTML='<div class="empty">Carregando protocolos...</div>';
+  const {data,error}=await db.from('protocolos').select('*').order('criado_em',{ascending:false});
+  if(error){
+    $('protocolList').innerHTML='<div class="empty">Não foi possível carregar os protocolos.<br>'+escapeHtml(error.message)+'</div>';
+    $('count').textContent='Falha ao carregar';
+    return;
+  }
+  loaded=true;
+  $('count').textContent=`${data.length} ${data.length===1?'protocolo cadastrado':'protocolos cadastrados'}`;
+  if(!data.length){
+    $('protocolList').innerHTML='<div class="empty">Ainda não há protocolos cadastrados.<br>Use o formulário acima para adicionar o primeiro.</div>';
+    return;
+  }
+  $('protocolList').innerHTML=data.map(p=>`<article class="record" data-record="${p.id}">
+    <div class="record-number">${escapeHtml(p.numero_protocolo)}</div>
+    <div class="record-meta">Corretor: ${escapeHtml(p.corretor)}<br>Responsável: ${escapeHtml(p.responsavel)}</div>
+    ${p.observacao?`<div class="record-meta">${escapeHtml(p.observacao)}</div>`:''}
+    <div class="record-actions" data-actions="${p.id}">
+      <button class="secondary" type="button" data-edit="${p.id}">Editar</button>
+      <button class="danger" type="button" data-ask-delete="${p.id}">Excluir</button>
+    </div>
+  </article>`).join('');
+
+  $('protocolList').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editProtocol(Number(b.dataset.edit),data)));
+  $('protocolList').querySelectorAll('[data-ask-delete]').forEach(b=>b.addEventListener('click',()=>askDeleteProtocol(Number(b.dataset.askDelete))));
+}
+
+function askDeleteProtocol(id){
+  if(pendingDeleteId!==null&&pendingDeleteId!==id)restoreDeleteButtons(pendingDeleteId);
+  pendingDeleteId=id;
+  const box=$('protocolList').querySelector(`[data-actions="${id}"]`);
+  if(!box)return;
+  box.innerHTML=`<button class="danger" type="button" data-confirm-delete="${id}">Confirmar exclusão</button><button class="secondary" type="button" data-cancel-delete="${id}">Cancelar</button>`;
+  box.querySelector('[data-confirm-delete]').addEventListener('click',e=>withBusy(e.currentTarget,()=>deleteProtocol(id)));
+  box.querySelector('[data-cancel-delete]').addEventListener('click',()=>{pendingDeleteId=null;restoreDeleteButtons(id)});
+}
+
+function restoreDeleteButtons(id){
+  const box=$('protocolList').querySelector(`[data-actions="${id}"]`);
+  if(!box)return;
+  box.innerHTML=`<button class="secondary" type="button" data-edit="${id}">Editar</button><button class="danger" type="button" data-ask-delete="${id}">Excluir</button>`;
+  box.querySelector('[data-edit]').addEventListener('click',()=>loadProtocols());
+  box.querySelector('[data-ask-delete]').addEventListener('click',()=>askDeleteProtocol(id));
+}
+
+function resetForm(){
+  editingId=null;
+  $('protocolForm').reset();
+  $('formTitle').textContent='Novo protocolo';
+  $('saveBtn').textContent='Salvar protocolo';
+  $('cancelEdit').classList.add('hidden');
+  setStatus('formStatus','');
+}
+
+function editProtocol(id,rows){
+  const p=rows.find(x=>x.id===id);
+  if(!p)return;
+  editingId=id;
+  $('numero').value=p.numero_protocolo;
+  $('corretor').value=p.corretor;
+  $('responsavel').value=p.responsavel;
+  $('observacao').value=p.observacao||'';
+  $('formTitle').textContent='Editar protocolo';
+  $('saveBtn').textContent='Salvar alterações';
+  $('cancelEdit').classList.remove('hidden');
+  $('formCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function deleteProtocol(id){
+  const {error}=await db.from('protocolos').delete().eq('id',id);
+  if(error){
+    setStatus('formStatus','Não foi possível excluir: '+error.message,'error');
+    return;
+  }
+  if(editingId===id)resetForm();
+  clearSearchResult();
+  setStatus('formStatus','Protocolo excluído com sucesso.','success');
+  await loadProtocols();
+}
+
+$('searchNumber').addEventListener('input',e=>{e.target.value=onlyDigits(e.target.value)});
+$('numero').addEventListener('input',e=>{e.target.value=onlyDigits(e.target.value)});
+
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  await withBusy($('loginBtn'),async()=>{
+    setStatus('loginStatus','Verificando acesso...');
+    const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+    if(error)setStatus('loginStatus','Não foi possível entrar. Confira seu e-mail e senha.','error');
+  });
+});
+
+$('logoutBtn').addEventListener('click',e=>withBusy(e.currentTarget,async()=>{await db.auth.signOut()}));
+$('navSearch').addEventListener('click',()=>showView('search'));
+$('navManage').addEventListener('click',()=>showView('manage'));
+
+$('protocolForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  await withBusy($('saveBtn'),async()=>{
+    const numeroLimpo=onlyDigits($('numero').value.trim());
+    $('numero').value=numeroLimpo;
+    if(!numeroLimpo){
+      setStatus('formStatus','Informe um número de protocolo válido (apenas dígitos).','error');
+      $('numero').focus();
+      return;
+    }
+    setStatus('formStatus','Salvando...');
+    const payload={
+      numero_protocolo:numeroLimpo,
+      corretor:$('corretor').value.trim(),
+      responsavel:$('responsavel').value.trim(),
+      observacao:$('observacao').value.trim()||null
+    };
+    const result=editingId
+      ?await db.from('protocolos').update(payload).eq('id',editingId)
+      :await db.from('protocolos').insert(payload);
+    if(result.error){
+      setStatus('formStatus',result.error.code==='23505'?'Este número de protocolo já está cadastrado.':result.error.message,'error');
+      return;
+    }
+    const wasEditing=!!editingId;
+    resetForm();
+    clearSearchResult();
+    setStatus('formStatus',wasEditing?'Protocolo atualizado com sucesso!':'Protocolo cadastrado com sucesso!','success');
+    await loadProtocols();
+  });
+});
+
+$('cancelEdit').addEventListener('click',resetForm);
+$('refreshBtn').addEventListener('click',e=>withBusy(e.currentTarget,loadProtocols));
+
+async function searchProtocol(){
+  await withBusy($('searchBtn'),async()=>{
+    const n=onlyDigits($('searchNumber').value.trim());
+    $('searchNumber').value=n;
+    $('searchResult').classList.add('hidden');
+    setStatus('searchStatus','');
+    if(!n){
+      setStatus('searchStatus','Digite o número do protocolo para pesquisar.','error');
+      $('searchNumber').focus();
+      return;
+    }
+    setStatus('searchStatus','Buscando protocolo...');
+    const {data,error}=await db.from('protocolos').select('numero_protocolo,corretor,responsavel,observacao').eq('numero_protocolo',n).maybeSingle();
+    if(error){
+      setStatus('searchStatus','Erro na pesquisa: '+error.message,'error');
+      return;
+    }
+    if(!data){
+      setStatus('searchStatus','Não encontramos esse protocolo. Confira o número e tente novamente.','error');
+      return;
+    }
+    $('searchResult').innerHTML=`<div class="result"><div class="result-head"><span>PROTOCOLO LOCALIZADO</span><strong>${escapeHtml(data.numero_protocolo)}</strong></div><div class="result-body"><div class="field"><small>CORRETOR</small><div>${escapeHtml(data.corretor)}</div></div><div class="field"><small>RESPONSÁVEL</small><div>${escapeHtml(data.responsavel)}</div></div><div class="field"><small>OBSERVAÇÃO</small><div>${escapeHtml(data.observacao||'Sem observações.')}</div></div></div></div>`;
+    $('searchResult').classList.remove('hidden');
+    setStatus('searchStatus','Protocolo encontrado.','success');
+  });
+}
+
+$('searchBtn').addEventListener('click',searchProtocol);
+$('searchNumber').addEventListener('keydown',e=>{if(e.key==='Enter')searchProtocol()});
+db.auth.onAuthStateChange((_event,session)=>showApp(session));
+db.auth.getSession().then(({data})=>showApp(data.session));
+})();
+</script></body></html>
